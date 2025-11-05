@@ -1,30 +1,53 @@
 ArtRogue Streamlit
 ==================
 
-Minimal port of the ArtRogue Shiny app to Streamlit. 
+This project is a port of the ArtRogue Shiny app ([shinyapps.io](https://mpfoley73.shinyapps.io/art-rogue/), [github](https://github.com/mpfoley73/art-rogue)) to Streamlit ([streamlit.io/cloud](https://art-rogue.streamlit.app/), [github](https://github.com/mpfoley73/art-rogue-streamlit)). 
 
-Run locally:
+## How to run
+
+Initially, create a virtual env and install dependencies from `requirements.txt`:
 
 ```powershell
-# create a virtual env and install
 python -m venv .venv; .\.venv\Scripts\Activate.ps1; pip install -r requirements.txt
+```
+
+Then you can run the app locally with:
+
+```powershell
 streamlit run app.py
 ```
+
+## Deployment
+
+This app is hosted on Streamlit Community Cloud.
+
+- Create an account at [https://streamlit.io/cloud](https://streamlit.io/cloud).
+- Link your account to your GitHub repo.
 
 Files:
 - `app.py` — main Streamlit app
 - `utils.py` — helpers to query MET and CMA APIs
 
-Chat / OpenAI
----------------
+## Chat / OpenAI
 
-This prototype includes a simple chat panel that uses OpenAI's API to generate text. To use it set an environment variable `OPENAI_API_KEY` with your OpenAI API key before running Streamlit. If the key or SDK aren't available, the chat will show a helpful message instead of streaming.
+This prototype includes a simple chat panel that uses OpenAI's API to generate text. To use it set an environment variable `OPENAI_API_KEY` with your OpenAI API key before running Streamlit. If the key or SDK aren't available, the chat shows a helpful message instead of streaming.
 
-# Local development with a .env file
-#
-# You can also store the key in a local `.env` file for convenience while developing. Make sure `.env` is in `.gitignore` (the repo includes one).
-# Example `.env`:
-#
+1. Log in at Streamlit Community Cloud
+2. Deploy your app if you haven't already
+3. Go to your app's settings:
+    - Expand the "Manage app" menu at the lower right
+        ![alt text](resources/manage-app.png)
+    - Click on the three dots (...) menu next to your app
+        ![alt text](resources/settings.png)
+    - Select "Settings"
+    - Select "Secrets"
+4. Add your secret using this format in the text area:
+
+```ini
+OPENAI_API_KEY = "your-api-key-here"
+```
+
+You can also store the key in a local `.env` file for convenience while developing. Make sure `.env` is in `.gitignore` (the repo includes one).
 
 Architecture
 ------------
