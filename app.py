@@ -1,4 +1,4 @@
-"""Minimal Streamlit port of the ArtRogue Shiny app.
+"""Streamlit port of the ArtRogue Shiny app.
 
 This module defines the Streamlit UI and wires the user interactions to
 the helper modules in this package. The app layout uses two columns: the
@@ -9,16 +9,15 @@ High-level responsibilities:
 - Render artwork cards and a selected-artwork view
 - Start and continue conversations by building a `messages` list and
     delegating streaming to `chat.stream_messages`.
-
-The file includes inline comments showing where session state is read and
-updated so you can follow the flow of data through the UI.
 """
+
+# Future imports for type hinting and compatibility
 from __future__ import annotations
 
-import streamlit as st
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+import streamlit as st
 from utils import fx_search, fx_search_result, CMA_LABEL, MET_LABEL
 from chat import get_system_prompt
 

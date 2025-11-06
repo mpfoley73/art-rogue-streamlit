@@ -5,11 +5,21 @@ This project is a port of the ArtRogue Shiny app ([shinyapps.io](https://mpfoley
 
 ## How to run
 
-Initially, create a virtual env and install dependencies from `requirements.txt`:
+Initially, create a virtual env and install dependencies from `requirements.txt`. To activate the virtual env, you'll need permissions.
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+Then create and activate the virtual env and install dependencies:
 
 ```powershell
 python -m venv .venv; .\.venv\Scripts\Activate.ps1; pip install -r requirements.txt
 ```
+
+You should notice that you have a new prompt prefix like `(.venv)`.
+Before: `PS C:\Users\mpfol\OneDrive\Documents\GitHub\art-rogue-streamlit>`  
+After: `(.venv) PS C:\Users\mpfol\OneDrive\Documents\GitHub\art-rogue-streamlit>`
 
 Then you can run the app locally with:
 
@@ -36,9 +46,13 @@ This prototype includes a simple chat panel that uses OpenAI's API to generate t
 2. Deploy your app if you haven't already
 3. Go to your app's settings:
     - Expand the "Manage app" menu at the lower right
+
         ![alt text](resources/manage-app.png)
+
     - Click on the three dots (...) menu next to your app
+
         ![alt text](resources/settings.png)
+
     - Select "Settings"
     - Select "Secrets"
 4. Add your secret using this format in the text area:
@@ -47,21 +61,19 @@ This prototype includes a simple chat panel that uses OpenAI's API to generate t
 OPENAI_API_KEY = "your-api-key-here"
 ```
 
-You can also store the key in a local `.env` file for convenience while developing. Make sure `.env` is in `.gitignore` (the repo includes one).
+You can also store the key in a local `.env` file for convenience while developing. Make sure `.env` is in `.gitignore` (the repo includes one). The app loads `.env` automatically (via python-dotenv) and will also prefer `st.secrets` when available.
 
-Architecture
-------------
+## Architecture
 
-This repository contains a small Streamlit app that mirrors an R/Shiny app called ArtRogue. The core files are:
+This repository contains a small Streamlit app that mirrors my R/Shiny app called ArtRogue. The core files are:
 
 - `app.py` — Streamlit application: layout, widgets, session state, and wiring between UI and helpers.
 - `utils.py` — Small helpers that query the MET and Cleveland Museum of Art APIs and normalize results for the UI.
 - `chat.py` — Thin OpenAI integration layer that streams LLM responses. Supports both the new `openai>=1.0` client and older SDKs.
 - `requirements.txt` — Python dependencies used to run the app.
-- `.streamlit/secrets.toml` & `.env` — Local secret storage (ignored by git when configured correctly).
+- `.streamlit/secrets.toml` & `.env` — Local secret storage (ignored by git).
 
-Data shapes and flow
---------------------
+## Data shapes and flow
 
 - Search results: `utils.fx_search(api_label, q)` returns a list of artwork dicts returned directly from the museum APIs. Each artwork dict has vendor-specific fields (e.g., `primaryImageSmall` for MET or `images.web.url` for CMA).
 - Normalized result: `utils.fx_search_result(api_label, artwork)` returns a dict with `img_url`, `title`, `artist`, and `creation_date` used by the UI.
@@ -72,11 +84,3 @@ Where to read the code
 - Start at `app.py` to understand UI layout, session state, and the user flow (search -> select -> chat).
 - Inspect `utils.py` when you want to extend or change the museum API behavior.
 - Inspect `chat.py` to change the LLM model, streaming behavior, or to add retries / rate-limiting.
-
-# ```ini
-# OPENAI_API_KEY=sk-...yourkey...
-# ```
-#
-# The app now loads `.env` automatically (via python-dotenv) and will also prefer `st.secrets` when available.
-
-# art-rogue-streamlit
