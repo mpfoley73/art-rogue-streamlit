@@ -17,9 +17,15 @@ Then create and activate the virtual env and install dependencies:
 python -m venv .venv; .\.venv\Scripts\Activate.ps1; pip install -r requirements.txt
 ```
 
-You should notice that you have a new prompt prefix like `(.venv)`.
+You should notice that you have a new prompt prefix like `(.venv)`.<br>
 Before: `PS C:\Users\mpfol\OneDrive\Documents\GitHub\art-rogue-streamlit>`  
 After: `(.venv) PS C:\Users\mpfol\OneDrive\Documents\GitHub\art-rogue-streamlit>`
+
+Going forward, whenever you open a new terminal to work on this project, just run:
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
 
 Then you can run the app locally with:
 

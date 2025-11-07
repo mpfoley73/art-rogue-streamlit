@@ -23,22 +23,29 @@ from chat import get_system_prompt
 
 
 def main() -> None:
-    st.set_page_config(page_title="ArtRogue", layout="wide")
-    # Load .env for local development if present (do this before reading secrets/env)
+    st.set_page_config(
+        page_title="ArtRogue",
+        page_icon=":man_artist:",
+        layout="wide"
+    )
+
+    # Configure OpenAI API key using this priority order:
+    # 1. Load .env file (for local development)
     env_path = Path(".env")
     if env_path.exists():
         load_dotenv(dotenv_path=env_path)
 
-    # Prefer Streamlit secrets for the OpenAI key when available. This lets users
-    # set the key in .streamlit/secrets.toml or via Streamlit Cloud UI.
+    # 2. Check Streamlit secrets (preferred for production)
+    # These can be set in .streamlit/secrets.toml locally or in Streamlit Cloud UI
     secret_key = None
     try:
-        # st.secrets behaves like a dict; use .get for safety inside non-Streamlit contexts
+        # Use .get() for safe access in both Streamlit and non-Streamlit contexts
         secret_key = st.secrets.get("OPENAI_API_KEY")
     except Exception:
         secret_key = None
 
-    # Fallback to .env / environment variables
+    # 3. Get final key, preferring Streamlit secrets over environment variables
+    # Environment variables could come from .env (step 1) or system environment
     env_key = os.environ.get("OPENAI_API_KEY")
     final_key = secret_key or env_key
     if final_key:
