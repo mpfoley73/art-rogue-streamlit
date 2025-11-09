@@ -1,4 +1,4 @@
-import utils
+import museum_api
 import sys
 from pathlib import Path
 
@@ -8,6 +8,6 @@ sys.path.insert(0, str(ROOT))
 
 
 def test_fx_search_result_empty():
-    out = utils.fx_search_result("unknown", {})
+    out = museum_api.fx_search_result("unknown", {})
     assert out["img_url"] == ""
     assert out["title"] == ""
